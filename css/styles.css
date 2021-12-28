@@ -27,6 +27,10 @@
     box-shadow: 0 5px 5px #777777;
 }
 
+.startScreen:hover, .endScreen:hover {
+    cursor: pointer;
+}
+
 .gameArea {
     width: 600px;
     height: 100vh;
@@ -46,5 +50,4 @@
     text-align: center;
     padding: 20px;
     font-size: 48px;
-
 }

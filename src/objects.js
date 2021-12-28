@@ -1,22 +1,24 @@
 createPlayer = () => {
-    let car = document.createElement('div');
-    car.style.position = 'absolute';
-    car.style.width = '50px';
-    car.style.height = '80px';
-    car.style.background = 'red';
-    car.style.left = '275px';
-    car.style.bottom = '20px';
-    return car;
+    let player = document.createElement('div');
+    player.style.position = 'absolute';
+    player.style.width = '100px';
+    player.style.height = '100px';
+    player.style.left = '250px';
+    player.style.bottom = '20px';
+    player.style.background = "url('../assets/player.png')";
+    player.style.backgroundSize = 'cover';
+    return player;
 }
 
 createEnemy = (index) => {
     let enemy = document.createElement('div');
     enemy.classList.add('enemy');
     enemy.style.position = 'absolute';
-    enemy.style.width = '50px';
-    enemy.style.height = '80px';
-    enemy.style.background = 'yellow';
-    enemy.style.left = index*200+75 + 'px';
+    enemy.style.width = '100px';
+    enemy.style.height = '100px';
+    enemy.style.background = "url('../assets/enemy.png')";
+    enemy.style.backgroundSize = 'cover';
+    enemy.style.left = index*200 + 50 + 'px';
     enemy.style.top = '0px';
     return enemy;
 }
@@ -27,6 +29,10 @@ spawnEnemy = () => {
         let enemy = createEnemy(spawnIndex);
         gameArea.append(enemy);
     }
+}
+
+increaseSpeed = () => {
+    speed++;
 }
 
 createRoadLine = (x, y) => {
@@ -90,14 +96,11 @@ checkCollision = (player, enemy) => {
 gameOver = () => {
     playerAttr.playStatus = false;
     if (playerAttr.score > highScore) highScore = playerAttr.score;
-    endScreen.innerText = 'Game Over. Your Score: ' + playerAttr.score + '. High Score: ' + highScore;
-    clearInterval(spawnEnemyInterval);
+    endScreen.innerText = 'Game Over. Your Score: ' + playerAttr.score + '. High Score: ' + highScore + '. Click this message box to restart';
     score.classList.add('hide');
     score.innerText = 'Score: 0';
     endScreen.classList.remove('hide');
 
-    playerAttr.laneDistance = 200;
-    playerAttr.x = 0;
-    playerAttr.lane = 1;
-    playerAttr.score = 0;
+    clearInterval(spawnEnemyInterval);
+    clearInterval(increaseSpeedInterval);
 }

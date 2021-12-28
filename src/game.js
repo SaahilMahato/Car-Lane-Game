@@ -18,6 +18,7 @@ let speed = 1;
 let player;
 
 let spawnEnemyInterval;
+let increaseSpeedInterval;
 
 const userInputHandler = (e) => {
     e.preventDefault();
@@ -63,6 +64,11 @@ const startGame = (e) => {
     endScreen.classList.add('hide');
     gameArea.innerHTML = '';
 
+    playerAttr.x = 0;
+    playerAttr.lane = 1;
+    playerAttr.score = 0;
+    speed = 1;
+
     playerAttr.playStatus = true;
 
     window.requestAnimationFrame(gamePlay);
@@ -82,6 +88,7 @@ const startGame = (e) => {
     playerAttr.x = player.offsetLeft;
 
     spawnEnemyInterval = setInterval(spawnEnemy, 1000);
+    increaseSpeedInterval = setInterval(increaseSpeed, 5000);
 }
 
 startScreen.addEventListener('click', startGame);
