@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Lane Game</title>
+    <link rel='stylesheet' href='css/styles.css' type='text/css'>
+</head>
+<body>
+    <div class='game'>
+        <div class='score'></div>
+
+        <div class='startScreen'>
+            <p>
+                Press Enter to Start. <br/>
+                use Arrow keys to move left and right. <br/>
+                If you collide with another car you will lose.
+            </p>
+        </div>
+
+        <div class='gameArea hide'>
+
+        </div>
+
+        <div class='endScreen'>
+            <p>
+                Game Over <br>
+                Your score is: 
+            </p>
+        </div>
+    </div>
+
+    <script src='src/utils.js'></script>
+    <script src='src/car.js'></script>
+    <script src='src/game.js'></script>
+    <script src='src/index.js'></script>
+</body>
+</html>
