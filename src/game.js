@@ -3,10 +3,12 @@ const startScreen = document.querySelector('.startScreen');
 const gameArea = document.querySelector('.gameArea');
 
 const playerAttr = {
-    speed: 200,
+    laneDistance: 200,
     x: 0,
     lane: 1,
 };
+
+let speed = 1;
 
 let player;
 
@@ -14,13 +16,13 @@ const userInputHandler = (e) => {
     e.preventDefault();
     if (e.key === 'ArrowLeft' || e.key === 'a') {
         if (playerAttr.lane > 0) {
-            playerAttr.x -= playerAttr.speed;
+            playerAttr.x -= playerAttr.laneDistance;
             playerAttr.lane--;
         }
     }
     if (e.key === 'ArrowRight' || e.key === 'd') {
         if (playerAttr.lane < 2) {
-            playerAttr.x += playerAttr.speed;
+            playerAttr.x += playerAttr.laneDistance;
             playerAttr.lane++;
         }
     }
@@ -36,6 +38,10 @@ const gamePlay = () => {
         iterations: 1,
         fill: 'forwards'
     });
+
+    moveLines(speed);
+    moveEnemies(speed);
+
     window.requestAnimationFrame(gamePlay);
 }
 
@@ -59,6 +65,11 @@ const startGame = (e) => {
     player = createPlayer();
     gameArea.append(player);
     playerAttr.x = player.offsetLeft;
+
+
+    setInterval(() => {
+        spawnEnemy();
+    },2000);
 }
 
 startScreen.addEventListener('click', startGame);
