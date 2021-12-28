@@ -46,13 +46,19 @@ const startGame = (e) => {
 
     window.requestAnimationFrame(gamePlay);
 
-    player = new Car().createPlayer();
+    for (let i=0; i<7; i++) {
+        let roadLine = createRoadLine(195, i*128 + 10);
+        gameArea.append(roadLine);
+    }
+
+    for (let i=0; i<7; i++) {
+        let roadLine = createRoadLine(395, i*128 + 10);
+        gameArea.append(roadLine);
+    }
+
+    player = createPlayer();
     gameArea.append(player);
     playerAttr.x = player.offsetLeft;
-
-    let roadLine = document.createElement('div');
-    roadLine.classList.add('lines');
-    gameArea.append(roadLine);
 }
 
 startScreen.addEventListener('click', startGame);
