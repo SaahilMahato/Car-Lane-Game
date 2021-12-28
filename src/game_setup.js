@@ -8,7 +8,7 @@ createPlayer = () => {
     player.style.height = '100px';
     player.style.left = '250px'; // calculated using width of road
     player.style.bottom = '20px';
-    player.style.background = "url('../assets/player.png')";
+    player.style.background = "url('./assets/player.png')";
     player.style.backgroundSize = 'cover';
     return player;
 }
@@ -22,7 +22,7 @@ createEnemy = (index) => {
     enemy.style.position = 'absolute';
     enemy.style.width = '100px';
     enemy.style.height = '100px';
-    enemy.style.background = "url('../assets/enemy.png')";
+    enemy.style.background = "url('./assets/enemy.png')";
     enemy.style.backgroundSize = 'cover';
     enemy.style.left = index*200 + 50 + 'px'; // calculated using width of road
     enemy.style.top = '0px';
@@ -145,7 +145,7 @@ fireAmmo = () => {
     ammo.style.position = 'absolute';
     ammo.style.width = '50px';
     ammo.style.height = '50px';
-    ammo.style.background = "url('../assets/bullet.png')";
+    ammo.style.background = "url('./assets/bullet.png')";
     ammo.style.backgroundSize = 'cover';
     ammo.style.left = playerAttr.lane*200 + 75 + 'px'; // calculated using width of road
     ammo.style.bottom = '120px';
@@ -187,7 +187,7 @@ createAmmoPowerUp = (index) => {
     ammoPowerUp.style.position = 'absolute';
     ammoPowerUp.style.width = '50px';
     ammoPowerUp.style.height = '50px';
-    ammoPowerUp.style.background = "url('../assets/powerup.svg')";
+    ammoPowerUp.style.background = "url('./assets/powerup.svg')";
     ammoPowerUp.style.backgroundSize = 'cover';
     ammoPowerUp.style.left = index*200 + 75 + 'px'; //calulated using width of road
     ammoPowerUp.style.top = '0px';
