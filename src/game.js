@@ -8,6 +8,7 @@ const playerAttr = {
     x: 0,
     lane: 1,
     score: 0,
+    ammoCount: 1,
     playStatus: false
 };
 
@@ -32,6 +33,13 @@ const userInputHandler = (e) => {
         if (playerAttr.lane < 2) {
             playerAttr.x += playerAttr.laneDistance;
             playerAttr.lane++;
+        }
+    }
+    if (e.key === 'ArrowUp' || e.key === 'w') {
+        if (playerAttr.ammoCount > 0) {
+            console.log('ammofired');
+            gameArea.appendChild(fireAmmo());
+            playerAttr.ammoCount--;
         }
     }
 }
@@ -87,8 +95,8 @@ const startGame = (e) => {
     gameArea.append(player);
     playerAttr.x = player.offsetLeft;
 
-    spawnEnemyInterval = setInterval(spawnEnemy, 1000);
-    increaseSpeedInterval = setInterval(increaseSpeed, 5000);
+    spawnEnemyInterval = setInterval(spawnEnemy, 800);
+    increaseSpeedInterval = setInterval(increaseSpeed, 10000);
 }
 
 startScreen.addEventListener('click', startGame);

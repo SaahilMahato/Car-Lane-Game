@@ -24,7 +24,7 @@ createEnemy = (index) => {
 }
 
 spawnEnemy = () => {
-    if (Math.random() < 0.5) {
+    if (Math.random() < 0.4) {
         let spawnIndex = getRandomIntInclusive(0, 2);
         let enemy = createEnemy(spawnIndex);
         gameArea.append(enemy);
@@ -103,4 +103,17 @@ gameOver = () => {
 
     clearInterval(spawnEnemyInterval);
     clearInterval(increaseSpeedInterval);
+}
+
+fireAmmo = () => {
+    let ammo = document.createElement('div');
+    ammo.classList.add('ammo');
+    ammo.style.position = 'absolute';
+    ammo.style.width = '50px';
+    ammo.style.height = '50px';
+    ammo.style.background = "url('../assets/bullet.png')";
+    ammo.style.backgroundSize = 'cover';
+    ammo.style.left = playerAttr.lane*200 + 75 + 'px';
+    ammo.style.bottom = '120px';
+    return ammo;
 }
