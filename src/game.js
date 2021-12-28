@@ -20,6 +20,7 @@ let player;
 
 let spawnEnemyInterval;
 let increaseSpeedInterval;
+let spawnAmmoPowerUpInterval;
 
 const userInputHandler = (e) => {
     e.preventDefault();
@@ -37,7 +38,6 @@ const userInputHandler = (e) => {
     }
     if (e.key === 'ArrowUp' || e.key === 'w') {
         if (playerAttr.ammoCount > 0) {
-            console.log('ammofired');
             gameArea.appendChild(fireAmmo());
             playerAttr.ammoCount--;
         }
@@ -59,6 +59,8 @@ const gamePlay = () => {
 
         moveLines(speed);
         moveEnemies(speed);
+        moveAmmos(speed);
+        moveAmmoPowerUp(speed);
 
         window.requestAnimationFrame(gamePlay);
     }
@@ -97,6 +99,7 @@ const startGame = (e) => {
 
     spawnEnemyInterval = setInterval(spawnEnemy, 800);
     increaseSpeedInterval = setInterval(increaseSpeed, 10000);
+    spawnAmmoPowerUpInterval = setInterval(spawnAmmoPowerUp, 800);
 }
 
 startScreen.addEventListener('click', startGame);

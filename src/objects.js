@@ -117,3 +117,67 @@ fireAmmo = () => {
     ammo.style.bottom = '120px';
     return ammo;
 }
+
+moveAmmos = (speed) => {
+    let ammos = document.querySelectorAll('.ammo');
+    let new_top, curr_top;
+    let min_top = 0;
+    let enemies = document.querySelectorAll('.enemy');
+    ammos.forEach((ammo) => {
+
+        enemies.forEach((enemy) => {
+            if(checkCollision(ammo, enemy)) {
+                gameArea.removeChild(enemy);
+                gameArea.removeChild(ammo);
+            }
+        });
+
+        curr_top = ammo.getBoundingClientRect().top;
+        if (curr_top < min_top)
+            gameArea.removeChild(ammo);
+        else
+            new_top = curr_top - speed; 
+        ammo.style.top = new_top + 'px';
+    });
+}
+
+createAmmoPowerUp = (index) => {
+    let ammoPowerUp = document.createElement('div');
+    ammoPowerUp.classList.add('ammo-power-up');
+    ammoPowerUp.style.position = 'absolute';
+    ammoPowerUp.style.width = '50px';
+    ammoPowerUp.style.height = '50px';
+    ammoPowerUp.style.background = "url('../assets/powerup.svg')";
+    ammoPowerUp.style.backgroundSize = 'cover';
+    ammoPowerUp.style.left = index*200 + 75 + 'px';
+    ammoPowerUp.style.top = '0px';
+    return ammoPowerUp;
+}
+
+spawnAmmoPowerUp = () => {
+    if (Math.random() < 0.1) {
+        let spawnIndex = getRandomIntInclusive(0, 2);
+        let ammoPowerUp = createAmmoPowerUp(spawnIndex);
+        gameArea.append(ammoPowerUp);
+    }
+}
+
+moveAmmoPowerUp = (speed) => {
+    let ammoPowerUps = document.querySelectorAll('.ammo-power-up');
+    let new_top, curr_top;
+    let max_top = window.innerHeight;
+    ammoPowerUps.forEach((ammoPowerUp) => {
+
+        if(checkCollision(player, ammoPowerUp)) {
+            playerAttr.ammoCount++;
+            gameArea.removeChild(ammoPowerUp);
+        }
+
+        curr_top = parseInt(ammoPowerUp.style.top);
+        if (curr_top > max_top)
+            gameArea.removeChild(ammoPowerUp);
+        else
+            new_top = curr_top + speed;   
+        ammoPowerUp.style.top = new_top + 'px';
+    });
+}
