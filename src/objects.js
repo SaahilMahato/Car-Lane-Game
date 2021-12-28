@@ -61,6 +61,10 @@ moveEnemies = (speed) => {
     let new_top, curr_top;
     let max_top = window.innerHeight;
     enemies.forEach((enemy) => {
+
+        if(checkCollision(player, enemy))
+            
+
         curr_top = parseInt(enemy.style.top);
         if (curr_top > max_top) {
             new_top = 0;
@@ -71,4 +75,14 @@ moveEnemies = (speed) => {
             new_top = curr_top + speed;   
         enemy.style.top = new_top + 'px';
     });
+}
+
+checkCollision = (player, enemy) => {
+    playerRect = player.getBoundingClientRect();
+    enemyRect = enemy.getBoundingClientRect();
+
+    return !(playerRect.top > enemyRect.bottom ||
+        playerRect.bottom < enemyRect.top ||
+        playerRect.right < enemyRect.left ||
+        playerRect.left > enemyRect.right);
 }
