@@ -7,3 +7,16 @@
 .hide {
     display: none;
 }
+
+.gameArea {
+    width: 600px;
+    height: 100vh;
+    background: #2D3E50;
+    margin: auto;
+    position: relative;
+}
+
+.lines {
+    width: 10px;
+    
+}
