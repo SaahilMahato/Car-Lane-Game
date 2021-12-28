@@ -1,15 +1,21 @@
+/**
+ * @returns {HTMLBodyElement} - A div that is the player
+ */
 createPlayer = () => {
     let player = document.createElement('div');
     player.style.position = 'absolute';
     player.style.width = '100px';
     player.style.height = '100px';
-    player.style.left = '250px';
+    player.style.left = '250px'; // calculated using width of road
     player.style.bottom = '20px';
     player.style.background = "url('../assets/player.png')";
     player.style.backgroundSize = 'cover';
     return player;
 }
 
+/**
+ * @returns {HTMLBodyElement} - A div that is the enemy
+ */
 createEnemy = (index) => {
     let enemy = document.createElement('div');
     enemy.classList.add('enemy');
@@ -18,11 +24,14 @@ createEnemy = (index) => {
     enemy.style.height = '100px';
     enemy.style.background = "url('../assets/enemy.png')";
     enemy.style.backgroundSize = 'cover';
-    enemy.style.left = index*200 + 50 + 'px';
+    enemy.style.left = index*200 + 50 + 'px'; // calculated using width of road
     enemy.style.top = '0px';
     return enemy;
 }
 
+/**
+ * @returns {undefined} - spwans enemy at random lane
+ */
 spawnEnemy = () => {
     if (Math.random() < spawnRate) {
         let spawnIndex = getRandomIntInclusive(0, 2);
@@ -31,11 +40,17 @@ spawnEnemy = () => {
     }
 }
 
+/**
+ * @returns {undefined} - increases speed and enemy spawn rate
+ */
 increaseSpeed = () => {
     speed++;
     spawnRate += 0.1;
 }
 
+/**
+ * @returns {HTMLBodyElement} - A div that is a lane separator
+ */
 createRoadLine = (x, y) => {
     let roadLine = document.createElement('div');
     roadLine.classList.add('road-lines');
@@ -48,42 +63,50 @@ createRoadLine = (x, y) => {
     return roadLine;
 }
 
+/**
+ * @returns {undefined} - Animates lane separators
+ */
 moveLines = (speed) => {
     let roadLines = document.querySelectorAll('.road-lines');
-    let new_top, curr_top;
-    let max_top = window.innerHeight;
+    let newTop, currTop;
+    let maxTop = window.innerHeight;
     roadLines.forEach((roadLine) => {
-        curr_top = parseInt(roadLine.style.top);
-        if (curr_top > max_top)
-            new_top = 0;
+        currTop = parseInt(roadLine.style.top);
+        if (currTop > maxTop)
+            newTop = 0;
         else
-            new_top = curr_top + speed;
-        roadLine.style.top = new_top + 'px';
+            newTop = currTop + speed;
+        roadLine.style.top = newTop + 'px';
     });
 }
 
+/**
+ * @returns {undefined} - Animates enemies
+ */
 moveEnemies = (speed) => {
     let enemies = document.querySelectorAll('.enemy');
-    let new_top, curr_top;
-    let max_top = window.innerHeight;
+    let newTop, currTop;
+    let maxTop = window.innerHeight;
     enemies.forEach((enemy) => {
 
-        if(checkCollision(player, enemy)) {
+        if(checkCollision(player, enemy))
             gameOver();
-        }
 
-        curr_top = parseInt(enemy.style.top);
-        if (curr_top > max_top) {
+        currTop = parseInt(enemy.style.top);
+        if (currTop > maxTop) {
             playerAttr.score++;
             score.innerText = "Score: " + playerAttr.score;
             gameArea.removeChild(enemy);
         }
         else
-            new_top = curr_top + speed;   
-        enemy.style.top = new_top + 'px';
+            newTop = currTop + speed;   
+        enemy.style.top = newTop + 'px';
     });
 }
 
+/**
+ * @returns {boolean} - Checks if 2 objects collide
+ */
 checkCollision = (player, enemy) => {
     playerRect = player.getBoundingClientRect();
     enemyRect = enemy.getBoundingClientRect();
@@ -95,6 +118,9 @@ checkCollision = (player, enemy) => {
         playerRect.left > enemyRect.right);
 }
 
+/**
+ * @returns {undefined} - function that displays the game over screen
+ */
 gameOver = () => {
     playerAttr.playStatus = false;
     if (playerAttr.score > highScore) highScore = playerAttr.score;
@@ -110,6 +136,9 @@ gameOver = () => {
     clearInterval(spawnAmmoPowerUpInterval);
 }
 
+/**
+ * @returns {HTMLBodyElement} - A div that is an ammo
+ */
 fireAmmo = () => {
     let ammo = document.createElement('div');
     ammo.classList.add('ammo');
@@ -118,14 +147,17 @@ fireAmmo = () => {
     ammo.style.height = '50px';
     ammo.style.background = "url('../assets/bullet.png')";
     ammo.style.backgroundSize = 'cover';
-    ammo.style.left = playerAttr.lane*200 + 75 + 'px';
+    ammo.style.left = playerAttr.lane*200 + 75 + 'px'; // calculated using width of road
     ammo.style.bottom = '120px';
     return ammo;
 }
 
+/**
+ * @returns {undefined} - Animates Ammos
+ */
 moveAmmos = (speed) => {
     let ammos = document.querySelectorAll('.ammo');
-    let new_top, curr_top;
+    let newTop, currTop;
     let min_top = 0;
     let enemies = document.querySelectorAll('.enemy');
     ammos.forEach((ammo) => {
@@ -137,15 +169,18 @@ moveAmmos = (speed) => {
             }
         });
 
-        curr_top = ammo.getBoundingClientRect().top;
-        if (curr_top < min_top)
+        currTop = ammo.getBoundingClientRect().top;
+        if (currTop < min_top)
             gameArea.removeChild(ammo);
         else
-            new_top = curr_top - speed; 
-        ammo.style.top = new_top + 'px';
+            newTop = currTop - speed; 
+        ammo.style.top = newTop + 'px';
     });
 }
 
+/**
+ * @returns {HTMLBodyElement} - A div that is an ammo powerup
+ */
 createAmmoPowerUp = (index) => {
     let ammoPowerUp = document.createElement('div');
     ammoPowerUp.classList.add('ammo-power-up');
@@ -154,11 +189,14 @@ createAmmoPowerUp = (index) => {
     ammoPowerUp.style.height = '50px';
     ammoPowerUp.style.background = "url('../assets/powerup.svg')";
     ammoPowerUp.style.backgroundSize = 'cover';
-    ammoPowerUp.style.left = index*200 + 75 + 'px';
+    ammoPowerUp.style.left = index*200 + 75 + 'px'; //calulated using width of road
     ammoPowerUp.style.top = '0px';
     return ammoPowerUp;
 }
 
+/**
+ * @returns {undefined} - Randomly spawns powerup at each lane
+ */
 spawnAmmoPowerUp = () => {
     if (Math.random() < 0.2) {
         let spawnIndex = getRandomIntInclusive(0, 2);
@@ -167,10 +205,13 @@ spawnAmmoPowerUp = () => {
     }
 }
 
+/**
+ * @returns {undefined} - Animates ammos
+ */
 moveAmmoPowerUp = (speed) => {
     let ammoPowerUps = document.querySelectorAll('.ammo-power-up');
-    let new_top, curr_top;
-    let max_top = window.innerHeight;
+    let newTop, currTop;
+    let maxTop = window.innerHeight;
     ammoPowerUps.forEach((ammoPowerUp) => {
 
         if(checkCollision(player, ammoPowerUp)) {
@@ -179,11 +220,11 @@ moveAmmoPowerUp = (speed) => {
             gameArea.removeChild(ammoPowerUp);
         }
 
-        curr_top = parseInt(ammoPowerUp.style.top);
-        if (curr_top > max_top)
+        currTop = parseInt(ammoPowerUp.style.top);
+        if (currTop > maxTop)
             gameArea.removeChild(ammoPowerUp);
         else
-            new_top = curr_top + speed;   
-        ammoPowerUp.style.top = new_top + 'px';
+            newTop = currTop + speed;   
+        ammoPowerUp.style.top = newTop + 'px';
     });
 }

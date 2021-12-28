@@ -1,3 +1,4 @@
+// DOM elements
 const score = document.querySelector('.score-display');
 const startScreen = document.querySelector('.start-screen');
 const gameArea = document.querySelector('.game-area');
@@ -5,6 +6,7 @@ const endScreen = document.querySelector('.end-screen');
 const ammoDisplay = document.querySelector('.ammo-display');
 const scoreInfo = document.querySelector('.score-info');
 
+// stores information about the player
 const playerAttr = {
     laneDistance: 200,
     x: 0,
@@ -14,17 +16,18 @@ const playerAttr = {
     playStatus: false
 };
 
+// global variables of the game
 let highScore = 0;
-
 let speed = 1;
 let spawnRate = 0.5;
-
 let player;
-
 let spawnEnemyInterval;
 let increaseSpeedInterval;
 let spawnAmmoPowerUpInterval;
 
+/**
+ * @returns {undefined} - checks which key is pressed and performs the action
+ */
 const userInputHandler = (e) => {
     e.preventDefault();
     if (e.key === 'ArrowLeft' || e.key === 'a') {
@@ -48,10 +51,13 @@ const userInputHandler = (e) => {
     }
 }
 
+// add input handler to DOM
 document.addEventListener('keydown', userInputHandler);
 
-const gamePlay = () => {
-
+/**
+ * @returns {undefined} - Runs the game
+ */
+const gameLoop = () => {
     if (playerAttr.playStatus) {
         player.animate([
             {left : playerAttr.x + 'px'}
@@ -66,12 +72,17 @@ const gamePlay = () => {
         moveAmmos(speed);
         moveAmmoPowerUp(speed);
 
-        window.requestAnimationFrame(gamePlay);
+        window.requestAnimationFrame(gameLoop);
     }
 }
 
+/**
+ * @returns {undefined} - Starts the game
+ */
 const startGame = (e) => {
     e.preventDefault();
+
+    // hides and shows HTML elements of the DOM when game starts
     gameArea.classList.remove('hide');
     score.classList.remove('hide');
     ammoDisplay.classList.remove('hide');
@@ -79,31 +90,36 @@ const startGame = (e) => {
     endScreen.classList.add('hide');
     gameArea.innerHTML = '';
 
+    // resets player status 
     playerAttr.x = 0;
     playerAttr.lane = 1;
     playerAttr.score = 0;
     playerAttr.ammoCount = 0;
     speed = 1;
-
     playerAttr.playStatus = true;
 
-    window.requestAnimationFrame(gamePlay);
+    // starts frames
+    window.requestAnimationFrame(gameLoop);
 
+    // spawns first line of lane separators
     for (let i=0; i<7; i++) {
         let roadLine = createRoadLine(195, i*128 + 10);
         gameArea.append(roadLine);
     }
 
+    // spawns second line of lane separators
     for (let i=0; i<7; i++) {
         let roadLine = createRoadLine(395, i*128 + 10);
         gameArea.append(roadLine);
     }
 
+    // spawns player
     player = createPlayer();
     gameArea.append(player);
     playerAttr.x = player.offsetLeft;
 
-    spawnEnemyInterval = setInterval(spawnEnemy, 1000);
+    // sets intervals to perform periodic functions in the game
+    spawnEnemyInterval = setInterval(spawnEnemy, 1500);
     increaseSpeedInterval = setInterval(increaseSpeed, 30000);
     spawnAmmoPowerUpInterval = setInterval(spawnAmmoPowerUp, 2000);
 }
