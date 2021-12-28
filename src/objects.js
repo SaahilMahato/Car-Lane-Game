@@ -22,12 +22,11 @@ createEnemy = (index) => {
 }
 
 spawnEnemy = () => {
-    let spawnIndex1 = getRandomIntInclusive(0, 2);
-    let spawnIndex2 = getRandomIntInclusive(0, 2);
-    let enemy1 = createEnemy(spawnIndex1);
-    let enemy2 = createEnemy(spawnIndex2);
-    gameArea.append(enemy1);
-    gameArea.append(enemy2);
+    if (Math.random() < 0.5) {
+        let spawnIndex = getRandomIntInclusive(0, 2);
+        let enemy = createEnemy(spawnIndex);
+        gameArea.append(enemy);
+    }
 }
 
 createRoadLine = (x, y) => {
@@ -62,14 +61,15 @@ moveEnemies = (speed) => {
     let max_top = window.innerHeight;
     enemies.forEach((enemy) => {
 
-        if(checkCollision(player, enemy))
-            
+        if(checkCollision(player, enemy)) {
+            gameOver();
+        }
 
         curr_top = parseInt(enemy.style.top);
         if (curr_top > max_top) {
-            new_top = 0;
-            let spawnIndex = getRandomIntInclusive(0, 2);
-            enemy.style.left = spawnIndex*200+75 + 'px';
+            playerAttr.score++;
+            score.innerText = "Score: " + playerAttr.score;
+            gameArea.removeChild(enemy);
         }
         else
             new_top = curr_top + speed;   
@@ -85,4 +85,19 @@ checkCollision = (player, enemy) => {
         playerRect.bottom < enemyRect.top ||
         playerRect.right < enemyRect.left ||
         playerRect.left > enemyRect.right);
+}
+
+gameOver = () => {
+    playerAttr.playStatus = false;
+    if (playerAttr.score > highScore) highScore = playerAttr.score;
+    endScreen.innerText = 'Game Over. Your Score: ' + playerAttr.score + '. High Score: ' + highScore;
+    clearInterval(spawnEnemyInterval);
+    score.classList.add('hide');
+    score.innerText = 'Score: 0';
+    endScreen.classList.remove('hide');
+
+    playerAttr.laneDistance = 200;
+    playerAttr.x = 0;
+    playerAttr.lane = 1;
+    playerAttr.score = 0;
 }

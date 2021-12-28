@@ -1,16 +1,23 @@
 const score = document.querySelector('.score');
 const startScreen = document.querySelector('.startScreen');
 const gameArea = document.querySelector('.gameArea');
+const endScreen = document.querySelector('.endScreen');
 
 const playerAttr = {
     laneDistance: 200,
     x: 0,
     lane: 1,
+    score: 0,
+    playStatus: false
 };
+
+let highScore = 0;
 
 let speed = 1;
 
 let player;
+
+let spawnEnemyInterval;
 
 const userInputHandler = (e) => {
     e.preventDefault();
@@ -31,24 +38,32 @@ const userInputHandler = (e) => {
 document.addEventListener('keydown', userInputHandler);
 
 const gamePlay = () => {
-    player.animate([
-        {left : playerAttr.x + 'px'}
-    ], {
-        duration: 500,
-        iterations: 1,
-        fill: 'forwards'
-    });
 
-    moveLines(speed);
-    moveEnemies(speed);
+    if (playerAttr.playStatus) {
+        player.animate([
+            {left : playerAttr.x + 'px'}
+        ], {
+            duration: 1000,
+            iterations: 1,
+            fill: 'forwards'
+        });
 
-    window.requestAnimationFrame(gamePlay);
+        moveLines(speed);
+        moveEnemies(speed);
+
+        window.requestAnimationFrame(gamePlay);
+    }
 }
 
 const startGame = (e) => {
     e.preventDefault();
     gameArea.classList.remove('hide');
+    score.classList.remove('hide');
     startScreen.classList.add('hide');
+    endScreen.classList.add('hide');
+    gameArea.innerHTML = '';
+
+    playerAttr.playStatus = true;
 
     window.requestAnimationFrame(gamePlay);
 
@@ -66,7 +81,8 @@ const startGame = (e) => {
     gameArea.append(player);
     playerAttr.x = player.offsetLeft;
 
-    spawnEnemy();
+    spawnEnemyInterval = setInterval(spawnEnemy, 1000);
 }
 
 startScreen.addEventListener('click', startGame);
+endScreen.addEventListener('click', startGame);

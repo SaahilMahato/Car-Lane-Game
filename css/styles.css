@@ -9,10 +9,42 @@
     display: none;
 }
 
+.game {
+    background: url('../assets/background.jpg');
+    background-size: 100% 100%;
+}
+
+.startScreen, .endScreen {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-size: 38px;
+    padding: 20px;
+    color:white;
+    background-color: red;
+    box-shadow: 0 5px 5px #777777;
+}
+
 .gameArea {
     width: 600px;
     height: 100vh;
     background: #2D3E50;
     margin: auto;
     position: relative;
+    border-right: 7px dashed yellow;
+    border-left: 7px dashed yellow;
+}
+
+.score {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    min-width: 300px;
+    background: green;
+    text-align: center;
+    padding: 20px;
+    font-size: 48px;
+
 }
