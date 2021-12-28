@@ -9,23 +9,25 @@ createPlayer = () => {
     return car;
 }
 
-createEnemy = (x) => {
+createEnemy = (index) => {
     let enemy = document.createElement('div');
     enemy.classList.add('enemy');
     enemy.style.position = 'absolute';
     enemy.style.width = '50px';
     enemy.style.height = '80px';
     enemy.style.background = 'yellow';
-    enemy.style.left = x + 'px';
+    enemy.style.left = index*200+75 + 'px';
     enemy.style.top = '0px';
     return enemy;
 }
 
 spawnEnemy = () => {
-    let spawnIndices = [75, 275, 475];
-    let spawnIndex = spawnIndices[getRandomIntInclusive(0, 2)];
-    let enemy = createEnemy(spawnIndex);
-    gameArea.append(enemy);
+    let spawnIndex1 = getRandomIntInclusive(0, 2);
+    let spawnIndex2 = getRandomIntInclusive(0, 2);
+    let enemy1 = createEnemy(spawnIndex1);
+    let enemy2 = createEnemy(spawnIndex2);
+    gameArea.append(enemy1);
+    gameArea.append(enemy2);
 }
 
 createRoadLine = (x, y) => {
@@ -51,15 +53,22 @@ moveLines = (speed) => {
         else
             new_top = curr_top + speed;
         roadLine.style.top = new_top + 'px';
-    })
+    });
 }
 
 moveEnemies = (speed) => {
     let enemies = document.querySelectorAll('.enemy');
-    let curr_top;
+    let new_top, curr_top;
+    let max_top = window.innerHeight;
     enemies.forEach((enemy) => {
         curr_top = parseInt(enemy.style.top);
-        new_top = curr_top + speed;
+        if (curr_top > max_top) {
+            new_top = 0;
+            let spawnIndex = getRandomIntInclusive(0, 2);
+            enemy.style.left = spawnIndex*200+75 + 'px';
+        }
+        else
+            new_top = curr_top + speed;   
         enemy.style.top = new_top + 'px';
-    })
+    });
 }

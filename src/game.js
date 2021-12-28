@@ -66,10 +66,7 @@ const startGame = (e) => {
     gameArea.append(player);
     playerAttr.x = player.offsetLeft;
 
-
-    setInterval(() => {
-        spawnEnemy();
-    },2000);
+    spawnEnemy();
 }
 
 startScreen.addEventListener('click', startGame);
