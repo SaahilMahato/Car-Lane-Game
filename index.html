@@ -9,26 +9,32 @@
 </head>
 <body>
     <div class='game'>
-        <div class='score hide'>Score: 0</div>
-
-        <div class='startScreen'>
+        <div class='score-display hide'>Score: 0</div>
+        <div class= 'ammo-display hide'>Ammo: 0</div>
+        <div class='start-screen'>
             <p>
-                Click this message box to Start. <br/>
-                Use Arrow keys or A/D to move left and right. <br/>
-                If you collide with another car you will lose.
+                Click Start to start game. <br/>
+                Use Arrow keys or A / D to move left and right. <br/>
+                If you collide with another car you will lose. <br/>
+                Shoot ammo to destroy enemies. <br/>
+                Fire ammo using W / Up Arrow. <br/>
+                Collect powerups to increase ammo. <br/>
             </p>
+            <button class='start-button'>Start</button>
         </div>
 
-        <div class='gameArea hide'>
+        <div class='game-area hide'>
 
         </div>
 
-        <div class='endScreen hide'>
+        <div class='end-screen hide'>
+            <p class='score-info'></p>
+            <button class='restart-button'>Try again</button>
         </div>
     </div>
 
     <script src='src/utils.js'></script>
-    <script src='src/objects.js'></script>
+    <script src='src/game_setup.js'></script>
     <script src='src/game.js'></script>
     <script src='src/index.js'></script>
 </body>

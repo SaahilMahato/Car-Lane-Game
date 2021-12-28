@@ -24,7 +24,7 @@ createEnemy = (index) => {
 }
 
 spawnEnemy = () => {
-    if (Math.random() < 0.4) {
+    if (Math.random() < spawnRate) {
         let spawnIndex = getRandomIntInclusive(0, 2);
         let enemy = createEnemy(spawnIndex);
         gameArea.append(enemy);
@@ -33,6 +33,7 @@ spawnEnemy = () => {
 
 increaseSpeed = () => {
     speed++;
+    spawnRate += 0.1;
 }
 
 createRoadLine = (x, y) => {
@@ -87,8 +88,9 @@ checkCollision = (player, enemy) => {
     playerRect = player.getBoundingClientRect();
     enemyRect = enemy.getBoundingClientRect();
 
-    return !(playerRect.top > enemyRect.bottom ||
-        playerRect.bottom < enemyRect.top ||
+    // +/- 20 to fix hitbox
+    return !(playerRect.top + 20 > enemyRect.bottom ||
+        playerRect.bottom - 20 < enemyRect.top ||
         playerRect.right < enemyRect.left ||
         playerRect.left > enemyRect.right);
 }
@@ -96,13 +98,16 @@ checkCollision = (player, enemy) => {
 gameOver = () => {
     playerAttr.playStatus = false;
     if (playerAttr.score > highScore) highScore = playerAttr.score;
-    endScreen.innerText = 'Game Over. Your Score: ' + playerAttr.score + '. High Score: ' + highScore + '. Click this message box to restart';
+    scoreInfo.innerHTML = 'Game Over<br/>Your Score: ' + playerAttr.score + '<br/>High Score: ' + highScore;
     score.classList.add('hide');
+    ammoDisplay.classList.add('hide');
     score.innerText = 'Score: 0';
+    ammoDisplay.innerText = 'Ammo: 0';
     endScreen.classList.remove('hide');
 
     clearInterval(spawnEnemyInterval);
     clearInterval(increaseSpeedInterval);
+    clearInterval(spawnAmmoPowerUpInterval);
 }
 
 fireAmmo = () => {
@@ -155,7 +160,7 @@ createAmmoPowerUp = (index) => {
 }
 
 spawnAmmoPowerUp = () => {
-    if (Math.random() < 0.1) {
+    if (Math.random() < 0.2) {
         let spawnIndex = getRandomIntInclusive(0, 2);
         let ammoPowerUp = createAmmoPowerUp(spawnIndex);
         gameArea.append(ammoPowerUp);
@@ -170,6 +175,7 @@ moveAmmoPowerUp = (speed) => {
 
         if(checkCollision(player, ammoPowerUp)) {
             playerAttr.ammoCount++;
+            ammoDisplay.innerText = "Ammo: " + playerAttr.ammoCount;
             gameArea.removeChild(ammoPowerUp);
         }
 

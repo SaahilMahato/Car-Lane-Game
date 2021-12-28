@@ -14,7 +14,7 @@
     background-size: 100% 100%;
 }
 
-.startScreen, .endScreen {
+.start-screen, .end-screen {
     position: absolute;
     left: 50%;
     top: 50%;
@@ -27,11 +27,7 @@
     box-shadow: 0 5px 5px #777777;
 }
 
-.startScreen:hover, .endScreen:hover {
-    cursor: pointer;
-}
-
-.gameArea {
+.game-area {
     width: 600px;
     height: 100vh;
     background: #2D3E50;
@@ -41,13 +37,26 @@
     border-left: 7px dashed yellow;
 }
 
-.score {
+.score-display, .ammo-display {
     position: absolute;
     top: 20px;
     left: 20px;
-    min-width: 300px;
-    background: green;
+    min-width: 200px;
+    background: yellow;
     text-align: center;
     padding: 20px;
-    font-size: 48px;
+    font-size: 24px;
+}
+
+.ammo-display {
+    top: 200px !important;
+}
+
+.start-button, .restart-button {
+    min-width: 100px;
+    min-height: 50px;
+    cursor: pointer;
+    color: white;
+    background-color: green;
+    font-size: 24px;
 }

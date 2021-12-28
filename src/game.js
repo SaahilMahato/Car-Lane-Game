@@ -1,20 +1,23 @@
-const score = document.querySelector('.score');
-const startScreen = document.querySelector('.startScreen');
-const gameArea = document.querySelector('.gameArea');
-const endScreen = document.querySelector('.endScreen');
+const score = document.querySelector('.score-display');
+const startScreen = document.querySelector('.start-screen');
+const gameArea = document.querySelector('.game-area');
+const endScreen = document.querySelector('.end-screen');
+const ammoDisplay = document.querySelector('.ammo-display');
+const scoreInfo = document.querySelector('.score-info');
 
 const playerAttr = {
     laneDistance: 200,
     x: 0,
     lane: 1,
     score: 0,
-    ammoCount: 1,
+    ammoCount: 0,
     playStatus: false
 };
 
 let highScore = 0;
 
 let speed = 1;
+let spawnRate = 0.5;
 
 let player;
 
@@ -40,6 +43,7 @@ const userInputHandler = (e) => {
         if (playerAttr.ammoCount > 0) {
             gameArea.appendChild(fireAmmo());
             playerAttr.ammoCount--;
+            ammoDisplay.innerText = "Ammo: " + playerAttr.ammoCount;
         }
     }
 }
@@ -70,6 +74,7 @@ const startGame = (e) => {
     e.preventDefault();
     gameArea.classList.remove('hide');
     score.classList.remove('hide');
+    ammoDisplay.classList.remove('hide');
     startScreen.classList.add('hide');
     endScreen.classList.add('hide');
     gameArea.innerHTML = '';
@@ -77,6 +82,7 @@ const startGame = (e) => {
     playerAttr.x = 0;
     playerAttr.lane = 1;
     playerAttr.score = 0;
+    playerAttr.ammoCount = 0;
     speed = 1;
 
     playerAttr.playStatus = true;
@@ -97,10 +103,7 @@ const startGame = (e) => {
     gameArea.append(player);
     playerAttr.x = player.offsetLeft;
 
-    spawnEnemyInterval = setInterval(spawnEnemy, 800);
-    increaseSpeedInterval = setInterval(increaseSpeed, 10000);
-    spawnAmmoPowerUpInterval = setInterval(spawnAmmoPowerUp, 800);
+    spawnEnemyInterval = setInterval(spawnEnemy, 1000);
+    increaseSpeedInterval = setInterval(increaseSpeed, 30000);
+    spawnAmmoPowerUpInterval = setInterval(spawnAmmoPowerUp, 2000);
 }
-
-startScreen.addEventListener('click', startGame);
-endScreen.addEventListener('click', startGame);
